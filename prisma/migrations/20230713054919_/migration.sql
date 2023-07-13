@@ -12,8 +12,8 @@ CREATE TABLE "Ship" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "createdById" TEXT NOT NULL,
-    CONSTRAINT "Ship_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "createdBy" TEXT NOT NULL,
+    CONSTRAINT "Ship_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex

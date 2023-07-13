@@ -18,7 +18,7 @@ model User {
   name     String
   password String
 
-  Ships Ship[]
+  ships Ship[]
 }
 
 model Ship {
@@ -27,7 +27,7 @@ model Ship {
   type String
 
   createdAt   DateTime @default(now())
-  createdById String
+  createdBy String
 
-  CreatedBy User @relation(fields: [createdById], references: [id])
+  userCreatedBy User @relation(fields: [createdBy], references: [id])
 }

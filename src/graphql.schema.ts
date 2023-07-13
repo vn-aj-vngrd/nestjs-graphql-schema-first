@@ -10,7 +10,7 @@
 export class NewShip {
   name: string;
   type: string;
-  createdById: string;
+  createdBy: string;
 }
 
 export class UpdateShip {
@@ -32,11 +32,20 @@ export class UpdateUser {
   password?: Nullable<string>;
 }
 
+export class User {
+  id: string;
+  username: string;
+  name: string;
+  password: string;
+}
+
 export class Ship {
   id: string;
   name: string;
   type: string;
-  createdById: string;
+  createdAt: Date;
+  createdBy: string;
+  userCreatedBy: User;
 }
 
 export abstract class IQuery {
@@ -71,13 +80,6 @@ export abstract class ISubscription {
   abstract shipCreated(): Nullable<Ship> | Promise<Nullable<Ship>>;
 
   abstract userCreated(): Nullable<User> | Promise<Nullable<User>>;
-}
-
-export class User {
-  id: string;
-  username: string;
-  name: string;
-  password: string;
 }
 
 type Nullable<T> = T | null;

@@ -1,14 +1,27 @@
+scalar Date
+
+type User {
+  id: ID!
+  username: String!
+  name: String!
+  password: String!
+}
+
 type Ship {
   id: ID!
   name: String!
   type: String!
-  createdById: String!
+
+  createdAt: Date!
+  createdBy: String!
+
+  userCreatedBy: User!
 }
 
 input NewShip {
   name: String!
   type: String!
-  createdById: String!
+  createdBy: String!
 }
 
 input UpdateShip {
