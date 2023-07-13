@@ -1,0 +1,33 @@
+type Ship {
+  id: ID!
+  name: String!
+  type: String!
+  createdById: String!
+}
+
+input NewShip {
+  name: String!
+  type: String!
+  createdById: String!
+}
+
+input UpdateShip {
+  id: ID!
+  name: String
+  type: String
+}
+
+type Query {
+  ships: [Ship!]!
+  ship(id: ID!): Ship
+}
+
+type Mutation {
+  createShip(input: NewShip!): Ship!
+  updateShip(input: UpdateShip!): Ship
+  deleteShip(id: ID!): Ship
+}
+
+type Subscription {
+  shipCreated: Ship
+}
