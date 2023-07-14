@@ -12,10 +12,21 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+generator nestgraphql {
+  provider               = "node node_modules/prisma-nestjs-graphql"
+  output                 = "../src/@generated"
+  fields_Validator_from  = "class-validator"
+  fields_Validator_input = true
+}
+
 model User {
   id       String @id @default(cuid())
   username String @unique
-  name     String
+
+  /// @Validator.MinLength(3)
+  name String
+
+  /// @Validator.MinLength(8)
   password String
 
   ships Ship[]
@@ -26,7 +37,7 @@ model Ship {
   name String
   type String
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
   createdBy String
 
   userCreatedBy User @relation(fields: [createdBy], references: [id])

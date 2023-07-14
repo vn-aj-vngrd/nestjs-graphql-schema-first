@@ -1,7 +1,8 @@
-import { Resolver, Query, Mutation, Args, Subscription } from '@nestjs/graphql';
-import { UsersService } from './users.service';
-import { User, NewUser, UpdateUser } from 'src/graphql.schema';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { NewUser, UpdateUser, User } from 'src/graphql.schema';
+
+import { UsersService } from './users.service';
 
 const pubSub = new PubSub();
 

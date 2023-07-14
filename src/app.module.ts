@@ -1,10 +1,11 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaModule } from 'nestjs-prisma';
+
 import { PrismaMiddleware } from './middlewares/prisma.middleware';
-import { UsersModule } from './modules/users/users.module';
 import { ShipsModule } from './modules/ships/ship.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Ship, User } from '@prisma/client';
-import { NewShip, UpdateShip } from 'src/graphql.schema';
 import { PrismaService } from 'nestjs-prisma';
+import { ShipUncheckedUpdateInput } from 'src/@generated/ship/ship-unchecked-update.input';
+import { NewShip } from 'src/graphql.schema';
 
 interface ShipWithUser extends Ship {
   userCreatedBy: User;
@@ -39,12 +40,12 @@ export class ShipsService {
     });
   }
 
-  async update(params: UpdateShip): Promise<ShipWithUser> {
+  async update(params: ShipUncheckedUpdateInput): Promise<ShipWithUser> {
     const { id, ...params_without_id } = params;
 
     return this.prisma.ship.update({
       where: {
-        id,
+        id: id as string,
       },
       data: {
         ...params_without_id,
