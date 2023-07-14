@@ -30,8 +30,13 @@ input UpdateShip {
   type: String
 }
 
+input OrderByParams {
+  field: String
+  direction: String
+}
+
 type Query {
-  ships: [Ship!]!
+  ships(orderBy: OrderByParams): [Ship!]!
   ship(id: ID!): Ship
 }
 

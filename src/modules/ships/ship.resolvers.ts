@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { ShipUncheckedCreateInput } from 'src/@generated/ship/ship-unchecked-create.input';
-import { ShipUncheckedUpdateInput } from 'src/@generated/ship/ship-unchecked-update.input';
+import { ShipCreateInput } from 'src/@generated/ship/ship-create.input';
+import { ShipUpdateInput } from 'src/@generated/ship/ship-update.input';
 import { Ship } from 'src/graphql.schema';
 
 import { ShipsService } from './ship.service';
@@ -23,14 +23,14 @@ export class ShipsResolvers {
   }
 
   @Mutation('createShip')
-  async create(@Args('input') args: ShipUncheckedCreateInput): Promise<Ship> {
+  async create(@Args('input') args: ShipCreateInput): Promise<Ship> {
     const createdShip = await this.shipService.create(args);
     pubSub.publish('shipCreated', { shipCreated: createdShip });
     return createdShip;
   }
 
   @Mutation('updateShip')
-  async update(@Args('input') args: ShipUncheckedUpdateInput): Promise<Ship> {
+  async update(@Args('input') args: ShipUpdateInput): Promise<Ship> {
     return this.shipService.update(args);
   }
 

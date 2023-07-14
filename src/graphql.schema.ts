@@ -19,6 +19,11 @@ export class UpdateShip {
   type?: Nullable<string>;
 }
 
+export class OrderByParams {
+  field?: Nullable<string>;
+  direction?: Nullable<string>;
+}
+
 export class NewUser {
   username: string;
   name: string;
@@ -49,7 +54,7 @@ export class Ship {
 }
 
 export abstract class IQuery {
-  abstract ships(): Ship[] | Promise<Ship[]>;
+  abstract ships(orderBy?: Nullable<OrderByParams>): Ship[] | Promise<Ship[]>;
 
   abstract ship(id: string): Nullable<Ship> | Promise<Nullable<Ship>>;
 

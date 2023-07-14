@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Ship, User } from '@prisma/client';
+import { Prisma, Ship, User } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
-import { ShipUncheckedUpdateInput } from 'src/@generated/ship/ship-unchecked-update.input';
-import { NewShip } from 'src/graphql.schema';
+import { ShipCreateInput } from 'src/@generated/ship/ship-create.input';
+import { ShipUpdateInput } from 'src/@generated/ship/ship-update.input';
+import { formatOrderBy } from 'src/utils/format-orderBy';
+
+import { OrderByParams } from '../../graphql.schema';
 
 interface ShipWithUser extends Ship {
   userCreatedBy: User;
@@ -23,32 +26,56 @@ export class ShipsService {
     });
   }
 
-  async findAll(): Promise<ShipWithUser[]> {
+  async findAll(orderBy?: OrderByParams): Promise<ShipWithUser[]> {
+    let orderByObj: Prisma.ShipOrderByWithRelationInput = {
+      createdAt: 'desc',
+    };
+
+    if (orderBy) {
+      orderByObj = formatOrderBy(orderBy.field, orderBy.direction);
+    }
+
     return this.prisma.ship.findMany({
+      orderBy: orderByObj,
       include: {
         userCreatedBy: true,
       },
     });
   }
 
-  async create(input: NewShip): Promise<ShipWithUser> {
+  async create(input: ShipCreateInput): Promise<ShipWithUser> {
+    const { userCreatedBy, ...input_without_user } = input;
+
     return this.prisma.ship.create({
-      data: input,
+      data: {
+        ...input_without_user,
+        userCreatedBy: {
+          connect: {
+            id: userCreatedBy.connect.id,
+          },
+        },
+      },
       include: {
         userCreatedBy: true,
       },
     });
   }
 
-  async update(params: ShipUncheckedUpdateInput): Promise<ShipWithUser> {
-    const { id, ...params_without_id } = params;
+  async update(params: ShipUpdateInput): Promise<ShipWithUser> {
+    const { id, userCreatedBy, ...params_without_id_and_userCreatedBy } =
+      params;
 
     return this.prisma.ship.update({
       where: {
         id: id as string,
       },
       data: {
-        ...params_without_id,
+        ...params_without_id_and_userCreatedBy,
+        userCreatedBy: {
+          connect: {
+            id: userCreatedBy.connect.id,
+          },
+        },
       },
       include: {
         userCreatedBy: true,
